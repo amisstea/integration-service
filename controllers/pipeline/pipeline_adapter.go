@@ -385,11 +385,13 @@ func (a *Adapter) prepareApplicationSnapshotForPipelineRun(pipelineRun *tektonv1
 	applicationSnapshot.Labels[gitops.ApplicationSnapshotTypeLabel] = gitops.ApplicationSnapshotComponentType
 	applicationSnapshot.Labels[gitops.ApplicationSnapshotComponentLabel] = a.component.Name
 
-	// copy PipelineRun PAC annotations/labels from Build to applicationSnapshot
+	// Copy PipelineRun PAC annotations/labels from Build to snapshot.
+	// Modify the prefix so the PaC controller won't react to PipelineRuns generated from the snapshot.
 	pipelinerunLabels := pipelineRun.GetLabels()
 	for key, value := range pipelinerunLabels {
-		if strings.Contains(key, "pipelinesascode.tekton.dev") {
-			applicationSnapshot.Labels[key] = value
+		if strings.Contains(key, "pipelinesascode.tekton.dev/") {
+			newKey := strings.ReplaceAll(key, "pipelinesascode.tekton.dev/", "test.appstudio.openshift.io/")
+			applicationSnapshot.Labels[newKey] = value
 		}
 	}
 
@@ -398,8 +400,9 @@ func (a *Adapter) prepareApplicationSnapshotForPipelineRun(pipelineRun *tektonv1
 	}
 	pipelinerunAnnotations := pipelineRun.GetAnnotations()
 	for key, value := range pipelinerunAnnotations {
-		if strings.Contains(key, "pipelinesascode.tekton.dev") {
-			applicationSnapshot.Annotations[key] = value
+		if strings.Contains(key, "pipelinesascode.tekton.dev/") {
+			newKey := strings.ReplaceAll(key, "pipelinesascode.tekton.dev/", "test.appstudio.openshift.io/")
+			applicationSnapshot.Annotations[newKey] = value
 		}
 	}
 
