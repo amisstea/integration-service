@@ -287,7 +287,7 @@ func (a *Adapter) createMissingReleasesForReleasePlans(application *applicationa
 					newRelease.ObjectMeta.Annotations = make(map[string]string)
 				}
 				for key, value := range applicationSnapshot.Annotations {
-					if strings.Contains(key, "test.appstudio.openshift.io/") {
+					if strings.Contains(key, "pac.test.appstudio.openshift.io/") {
 						newRelease.ObjectMeta.Annotations[key] = value
 					}
 				}
@@ -297,7 +297,7 @@ func (a *Adapter) createMissingReleasesForReleasePlans(application *applicationa
 					newRelease.ObjectMeta.Labels = make(map[string]string)
 				}
 				for key, value := range applicationSnapshot.Labels {
-					if strings.Contains(key, "test.appstudio.openshift.io/") {
+					if strings.Contains(key, "pac.test.appstudio.openshift.io/") {
 						newRelease.ObjectMeta.Labels[key] = value
 					}
 				}
@@ -386,14 +386,14 @@ func (a *Adapter) createIntegrationPipelineRun(application *applicationapiv1alph
 			pipelineRun.ObjectMeta.Annotations = make(map[string]string)
 		}
 		for key, value := range applicationSnapshot.Annotations {
-			if strings.Contains(key, "test.appstudio.openshift.io/") {
+			if strings.Contains(key, "pac.test.appstudio.openshift.io/") {
 				pipelineRun.ObjectMeta.Annotations[key] = value
 			}
 		}
 	}
 	if applicationSnapshot.Labels != nil {
 		for key, value := range applicationSnapshot.Labels {
-			if strings.Contains(key, "test.appstudio.openshift.io/") {
+			if strings.Contains(key, "pac.test.appstudio.openshift.io/") {
 				pipelineRun.ObjectMeta.Labels[key] = value
 			}
 		}
