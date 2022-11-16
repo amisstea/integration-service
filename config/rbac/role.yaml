@@ -11,6 +11,8 @@ rules:
   - secrets
   verbs:
   - get
+  - list
+  - watch
 - apiGroups:
   - apis.kcp.dev
   resources:
@@ -57,6 +59,14 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - pipelinesascode.tekton.dev
+  resources:
+  - repositories
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - tekton.dev
   resources:
